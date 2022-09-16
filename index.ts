@@ -79,7 +79,7 @@ const mnemonicWordsText = `
 console.log(mnemonicWordsText)
 const mnemonicWordsPrompt = prompt('Type Number: ');
 
-var seed
+var seed: string[]
 
 if (mnemonicWordsPrompt == "1") {
     seed = generateMnemonicWords(24)
