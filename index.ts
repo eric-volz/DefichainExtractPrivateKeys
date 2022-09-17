@@ -89,7 +89,7 @@ if (mnemonicWordsPrompt == "1") {
     console.log("\nType your mnemonic seed word by word separated by one space:\n")
     while (true) {
         const mnemonicWordsPrompt = prompt('Type mnemonic seed: ');
-        const seed = mnemonicWordsPrompt.split(" ")
+        seed = mnemonicWordsPrompt.split(" ")
         if(validateMnemonicSentence(seed)) break
         console.log("\nMnemonic seed is not valid, try again\n")
     }   

@@ -91,7 +91,7 @@ else if (mnemonicWordsPrompt == "2") {
     console.log("\nType your mnemonic seed word by word separated by one space:\n");
     while (true) {
         const mnemonicWordsPrompt = prompt('Type mnemonic seed: ');
-        const seed = mnemonicWordsPrompt.split(" ");
+        seed = mnemonicWordsPrompt.split(" ");
         if ((0, jellyfish_wallet_mnemonic_1.validateMnemonicSentence)(seed))
             break;
         console.log("\nMnemonic seed is not valid, try again\n");
