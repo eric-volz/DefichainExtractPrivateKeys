@@ -1,7 +1,7 @@
 //Imports
 import { generateMnemonicWords, Bip32Options, MnemonicHdNodeProvider, validateMnemonicSentence } from "@defichain/jellyfish-wallet-mnemonic"
 import { WalletAccount, WalletAccountProvider, WalletEllipticPair, JellyfishWallet } from '@defichain/jellyfish-wallet'
-import { Network, MainNet } from '@defichain/jellyfish-network'
+import { Network, MainNet, TestNet } from '@defichain/jellyfish-network'
 import { Elliptic, WIF } from "@defichain/jellyfish-crypto"
 const prompt = require('prompt-sync')({sigint: true});
 
@@ -70,6 +70,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
 ------------------------------------------------------------------------------------
 `
 console.log(welcomeText)
+// MainNet or TestNet?
+while (true) {
+const net : string = prompt('Type "m" for MainNet or "t" for TestNet: ').toLowerCase();
+    if (net == 'm')    {
+        console.log("MainNet is used.")
+        break 
+    }
+    if (net == 't') {
+        account.network = TestNet
+        console.log("TestNet is used.")
+        break
+    }
+}
 
 // 1. Generate new mnemonic seed || 2. Use own mnemonic seed
 const mnemonicWordsText = `
@@ -128,13 +141,14 @@ for(var i = 0; i < numberOfAddresses; i++) {
     }
     
     function address(n: number) {
-        jelly.get(n).getAddress().then((address) => {
+        jelly.get(n).getAddress().then((address: string) => {
             console.log(n+1 + ". Address: " + address)
         })
     }
     function privateKey(n: number) {
-        jelly.get(n).privateKey().then((key) => {
-            var privateKey = WIF.encode(0x80, key)  
+        jelly.get(n).privateKey().then((key: any) => {
+            var privateKey = account.network == MainNet ? WIF.encode(0x80, key) : WIF.encode(0xef, key);
+            //see https://reference.cash/protocol/blockchain/encoding/base58check
             console.log(n+1 + ". PrivateKey: " + privateKey)
             console.log("--------------------------------------------------------------------")
         })
