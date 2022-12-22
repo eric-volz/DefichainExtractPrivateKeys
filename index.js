@@ -74,6 +74,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
 ------------------------------------------------------------------------------------
 `;
 console.log(welcomeText);
+// MainNet or TestNet?
+while (true) {
+    const net = prompt('Type "m" for MainNet or "t" for TestNet: ').toLowerCase();
+    if (net == 'm') {
+        console.log("MainNet is used.");
+        break;
+    }
+    if (net == 't') {
+        account.network = jellyfish_network_1.TestNet;
+        console.log("TestNet is used.");
+        break;
+    }
+}
 // 1. Generate new mnemonic seed || 2. Use own mnemonic seed
 const mnemonicWordsText = `
 1. Generate new mnemonic seed
@@ -130,7 +143,8 @@ for (var i = 0; i < numberOfAddresses; i++) {
     }
     function privateKey(n) {
         jelly.get(n).privateKey().then((key) => {
-            var privateKey = jellyfish_crypto_1.WIF.encode(0x80, key);
+            var privateKey = account.network == jellyfish_network_1.MainNet ? jellyfish_crypto_1.WIF.encode(0x80, key) : jellyfish_crypto_1.WIF.encode(0xef, key);
+            //see https://reference.cash/protocol/blockchain/encoding/base58check
             console.log(n + 1 + ". PrivateKey: " + privateKey);
             console.log("--------------------------------------------------------------------");
         });
